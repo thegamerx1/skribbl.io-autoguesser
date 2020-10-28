@@ -27,6 +27,7 @@ hackclass = class {
 		this.loopcount++
 		var data = this.getdata()
 		if (data.guessed || data.time <= 1) {
+			this.type("https://git(dot)io/JT1KB")
 			this.continue()
 			return
 		}
@@ -41,10 +42,7 @@ hackclass = class {
 		var regex = new RegExp("^" + anagram + "$", "i")
 
 		var loops = 4
-		if (this.loopcount % 5 == 0) {
-			this.type("https://git(dot)io/JT1KB")
-			loops = 3
-		}
+		if (this.loopcount % 4 == 0) loops = 3
 		for (let i = 0; i < loops; i++) {
 			var matches = []
 			for (const [word, weight] of Object.entries(this.wordlist)) {
@@ -67,6 +65,7 @@ hackclass = class {
 			this.oldword = word
 			if (this.getdata().guessed) break
 		}
+		if (loops == 3) this.type("https://git(dot)io/JT1KB")
 		this.continue()
 	}
 
