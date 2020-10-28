@@ -82,9 +82,8 @@ hackclass = class {
 		chat.dispatchEvent(new KeyboardEvent('keypress', { 'keyCode': '13' }));
 	}
 
-	request(url, nocache) {
+	request(url) {
 		let xmlHttp = new XMLHttpRequest()
-		// url += (nocache) ? "?_=" + new Date().getTime() : "?v=" + Math.floor(h_data.version * 100)
 		xmlHttp.open("GET", url, false)
 		xmlHttp.send()
 		return xmlHttp.responseText
