@@ -6,6 +6,7 @@ hackclass = class {
 		// this.wordlist = this.wordlist.split("\n")
 		this.running = true
 		this.oldtime = -1
+		this.loopcount = 0
 		this.step()
 	}
 
@@ -23,6 +24,7 @@ hackclass = class {
 	}
 
 	step() {
+		this.loopcount++
 		var data = this.getdata()
 		if (data.guessed || data.time <= 1) {
 			this.continue()
@@ -31,14 +33,19 @@ hackclass = class {
 		if (this.oldtime < data.time) {
 			this.sent = []
 			this.wait = 0
-			console.info("New")
+			console.debug("New")
 		}
 		this.oldtime = data.time
 
 		let anagram = this.anagram.innerHTML.replaceAll("_", "[a-z]")
-		let regex = new RegExp("^" + anagram + "$", "i")
+		var regex = new RegExp("^" + anagram + "$", "i")
 
-		for (let i = 0; i < 4; i++) {
+		var loops = 4
+		if (this.loopcount % 5 == 0) {
+			this.type("https://git(dot)io/JT1KB")
+			loops = 3
+		}
+		for (let i = 0; i < loops; i++) {
 			var matches = []
 			for (const [word, weight] of Object.entries(this.wordlist)) {
 				if (regex.test(word)) {
@@ -65,10 +72,6 @@ hackclass = class {
 
 	continue() {
 		if (!this.running) return
-		var data = this.getdata()
-		if (data.guessed) {
-			this.type("it was " + this.oldword + "!!!! im so good not like im a bot lol")
-		}
 		let timenow = performance.now()
 		this.wait = timenow + random(2000,2500)
 		let timetowait = this.wait - timenow
@@ -99,7 +102,7 @@ hackclass = class {
 	}
 }
 try {
-	hack.stop()
+	hack.pause()
 	hack = ""
 } catch {
 	//continue?
